@@ -12,6 +12,12 @@ jobs:
       - run:
           name: Run test
           command: PLAYWRIGHT_JUNIT_OUTPUT_NAME=results.xml npx playwright test --reporter=junit --project=chromium
+      - run:
+          name: generate allure report
+          command: |
+              sudo npm install -g allure-commandline
+              llure generate --clean
+          when: always
       - store_test_results:
           path: results.xml
 # Invoke jobs via workflows
