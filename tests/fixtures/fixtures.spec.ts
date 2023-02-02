@@ -9,7 +9,8 @@ import Assertions from "../../assertion/assertions";
 type FixturesType = {
     homePage: HomeAbstract
     common: CommonInterface
-    assertion: AssertionsAbstract
+    assertion: AssertionsAbstract,
+    portfolios: Array<string>
 }
 export const test = base.extend<FixturesType>({
     homePage: async ({ page }, use) => {

@@ -1,13 +1,26 @@
 import HomeAbstract from "./Home.abstract";
-import {expect, Page} from "@playwright/test";
+import {Page} from "@playwright/test";
+import HomeSelectors from "../../selectors/HomeSelectors/HomeSelectors";
 
 class HomePage extends HomeAbstract{
     constructor(page: Page) {
         super(page);
-        this.learnMoreButton = page.locator('a', { hasText: 'Learn More' });
+        this.homeSelectors = new HomeSelectors(page)
     }
-    async clickOnLearnMoreButton(): Promise<void> {
-        await this.learnMoreButton.click()
+    async scrollOnPortfolioArea(): Promise<void> {
+        await this.homeSelectors.portfolioAreaLocator().scrollIntoViewIfNeeded()
+    }
+
+    async hoverOnPortfolio(index: number): Promise<void> {
+        await this.homeSelectors.portfoliosLocator().nth(index).hover()
+    }
+
+    async clickOnPortfolio(index: number): Promise<void> {
+        await this.homeSelectors.portfoliosLocator().nth(index).click()
+    }
+
+    async getUrlPathOfPortfolio(text: string): Promise<string> {
+        return await this.homeSelectors.portfolioHoverText(text).getAttribute('href')
     }
 }
 

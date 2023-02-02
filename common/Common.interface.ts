@@ -2,7 +2,7 @@ import {BrowserContext} from "@playwright/test";
 
 interface CommonInterface{
     readonly context: BrowserContext
-    login: ()=>Promise<void>
+    getLoopIndexAndValue: (object:Array<any>)=> any
 }
 
 export default CommonInterface

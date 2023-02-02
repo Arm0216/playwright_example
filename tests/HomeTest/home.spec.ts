@@ -1,24 +1,27 @@
 import {test} from "../fixtures/fixtures.spec";
+const parameters: JSON = require('./test_parameters.json')
+
 
 test.describe('Home page functionality', ()=>{
-    test.beforeEach(async ({page, context, homePage, common})=>{
-        // const b = [
-        //     {
-        //         name: "auth._token.laravelSanctum",
-        //         value: 'true',
-        //         domain: 'stage.dlns.us',
-        //         path: "/"
-        //     }
-        // ]
+    test.beforeEach(async ({homePage})=>{
         await homePage.goTo()
-        // await context.clearCookies();
-        // await common.login()
-        // await context.addCookies(b)
-        // await page.reload()
     })
 
-    test('Navigate to home page', async ({homePage, assertion})=>{
-        await homePage.clickOnLearnMoreButton();
-        await assertion.verifyMoreButtonClick();
+    test('Verify portfolios hover functionality', async ({homePage, assertion, common})=>{
+        await homePage.scrollOnPortfolioArea();
+        for (const {index, value} of common.getLoopIndexAndValue(parameters['portfolios'])){
+            await homePage.hoverOnPortfolio(index)
+            await assertion.verifyPortfolioHoverTextVisibility(value)
+        }
+    })
+
+    parameters['portfolios'].forEach((value, index)=>{
+        test(`Verify ${value} portfolio click functionality`, async ({homePage, assertion})=>{
+            const url = await homePage.getUrlPathOfPortfolio(value)
+            await homePage.scrollOnPortfolioArea();
+            await homePage.clickOnPortfolio(index)
+            await assertion.verifyPageUrl(url)
+            await assertion.verifyProjectTitle(value)
+        })
     })
 })
