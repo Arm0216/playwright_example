@@ -6,11 +6,11 @@ test.describe('Home page functionality', () => {
         await homePage.goTo();
     });
 
-    test('Verify portfolios hover functionality', async ({ homePage, assertion, common }) => {
+    test('Verify portfolios hover functionality', async ({ homePage, assertion }) => {
         await homePage.scrollOnPortfolioArea();
-        for (const { index, value } of common.getLoopIndexAndValue(parameters.portfolios)) {
-            await homePage.hoverOnPortfolio(index);
-            await assertion.verifyPortfolioHoverTextVisibility(value);
+        for (let i = 0; i < parameters.portfolios.length; i++) {
+            await homePage.hoverOnPortfolio(i);
+            await assertion.verifyPortfolioHoverTextVisibility(parameters.portfolios[i]);
         }
     });
 
